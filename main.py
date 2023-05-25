@@ -27,24 +27,29 @@ def transform(data):  # Transformação
     return newData
 
 
-def meanPearYear(data):  # Média por ano de cada combustível
-    mediaValorPorAno = data[['Ano', 'Gasolina Comum',
-                            'Gasolina Aditivada',
-                             'Etanol Hidratado',
-                             'Oléo Diesel',
-                             'Oléo Diesel S10',
-                             'GLP',
-                             'GNV']].groupby(['Ano'], as_index=False).mean()
+def calculosBasicos(data):  # Média por ano de cada combustível
+    df = data[['Ano', 'Gasolina Comum',
+               'Gasolina Aditivada',
+               'Etanol Hidratado',
+               'Oléo Diesel',
+               'Oléo Diesel S10',
+               'GLP',
+               'GNV']].groupby(['Ano'], as_index=False)
+    df_mean = df.mean()
+    df_median = df.median()
+
+
+def plotting(media):
     plt.plot('Ano', 'Gasolina Comum',
-             data=mediaValorPorAno, label='Gasolina Comum')
+             data=media, label='Gasolina Comum')
     plt.plot('Ano', 'Gasolina Aditivada',
-             data=mediaValorPorAno, label='Gasolina Aditivada')
+             data=media, label='Gasolina Aditivada')
     plt.plot('Ano', 'Etanol Hidratado',
-             data=mediaValorPorAno, label='Etanol Hidratado')
-    plt.plot('Ano', 'Oléo Diesel', data=mediaValorPorAno, label='Oléo Diesel')
+             data=media, label='Etanol Hidratado')
+    plt.plot('Ano', 'Oléo Diesel', data=media, label='Oléo Diesel')
     plt.plot('Ano', 'Oléo Diesel S10',
-             data=mediaValorPorAno, label='Oléo Diesel S10')
-    plt.plot('Ano', 'GNV', data=mediaValorPorAno, label='GNV')
+             data=media, label='Oléo Diesel S10')
+    plt.plot('Ano', 'GNV', data=media, label='GNV')
     plt.grid(True)
     plt.xlabel('Anos')
     plt.ylabel('Valor em R$')
@@ -54,6 +59,6 @@ def meanPearYear(data):  # Média por ano de cada combustível
 
 
 if __name__ == '__main__':  # Execucução
-    df_full = pd.read_csv('./combustiveis-brasil.csv', delimiter=',')
-    df = transform(df_full)
-    meanPearYear(df)
+    df_full1 = pd.read_csv('./combustiveis-brasil.csv', delimiter=',')
+    df = transform(df_full1)
+    calculosBasicos(df)
